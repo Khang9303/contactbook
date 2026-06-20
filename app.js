@@ -14,16 +14,16 @@ app.get("/", (req, res) => {
 
 app.use("/api/contacts", contactsRouter);
 
-// handle 404 respone
-app.use((req, res) => {
+// handle 404 response
+app.use((req, res, next) => {
   // Code ở đây sẽ chạy khi không có route được định nghĩa nào
   // Khớp với yêu cầu. Gọi next() để chuyển sang middleware xử lý lỗi
   return next(new ApiErorr(404, "Resource not found"));
 });
 
 app.use((err, req, res, next) => {
-  return res.status(error.statusCode || 500).json({
-    message: error.message || "Internal Server Error",
+  return res.status(err.statusCode || 500).json({
+    message: err.message || "Internal Server Error",
   });
 });
 
